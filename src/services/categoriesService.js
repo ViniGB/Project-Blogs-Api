@@ -15,6 +15,11 @@ const categoriesService = {
     const newCategory = await db.Category.create(data);
     return newCategory;
   },
+
+  async listCategories() {
+    const categories = await db.Category.findAll();
+    return categories;
+  },
 };
 
 module.exports = categoriesService;

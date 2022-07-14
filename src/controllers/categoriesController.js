@@ -10,6 +10,11 @@ const categoriesController = {
     const category = await categoriesService.createCategory(data);
     res.status(201).json(category);
   },
+
+  async listCategories(_req, res) {
+    const categories = await categoriesService.listCategories();
+    res.status(200).json(categories);
+  },
 };
 
 module.exports = categoriesController;
