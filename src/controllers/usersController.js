@@ -16,6 +16,11 @@ const usersController = {
     const token = await authService.createToken(user);
     res.status(201).json({ token });
   },
+
+  async listUsers(_req, res) {
+    const users = await usersService.listUsers();
+    res.status(200).json(users);
+  },
 };
 
 module.exports = usersController;
