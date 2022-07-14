@@ -33,6 +33,14 @@ const usersService = {
     });
     return users;
   },
+
+  async getUserByIdLazy(id) {
+    const user = await db.User.findOne({
+      where: { id },
+      attributes: { exclude: ['password'] },
+    });
+    return user;
+  },
 };
 
 module.exports = usersService;

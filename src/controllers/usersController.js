@@ -21,6 +21,13 @@ const usersController = {
     const users = await usersService.listUsers();
     res.status(200).json(users);
   },
+
+  async getUserById(req, res) {
+    const { id } = req.params;
+    const user = await usersService.getUserByIdLazy(id);
+    if (!user) return res.status(404).json({ message: 'User does not exist' });
+    res.status(200).json(user);
+  },
 };
 
 module.exports = usersController;
