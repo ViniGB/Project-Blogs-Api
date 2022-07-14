@@ -9,8 +9,7 @@ const Category = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
   }, { 
     timestamps: false
-  }
-  );
+  });
 
   return Category;
 }
