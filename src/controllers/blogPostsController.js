@@ -26,6 +26,22 @@ const blogPostsController = {
     if (!post) return res.status(404).json({ message: 'Post does not exist' });
     res.status(200).json(post);
   },
+
+  async updatePost(req, res) {
+    const { id } = req.params;
+    const data = req.body;
+    const validatePostBody = await blogPostsService.validateUpdateBody(data);
+    if (!validatePostBody) {
+      return res.status(400).json({ message: 'Some required fields are missing' });
+    }
+    const post = await blogPostsService.getPostById(id);
+    if (!post) return res.status(404).json({ message: 'Post does not exist' });
+    const userId = req.user.dataValues.id;
+    if (post.userId !== userId) return res.status(401).json({ message: 'Unauthorized user' });
+    await blogPostsService.updatePostById(id, data);
+    const newPost = await blogPostsService.getPostById(id);
+    res.status(200).json(newPost);
+  },
 };
 
 module.exports = blogPostsController;

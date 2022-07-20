@@ -24,6 +24,12 @@ const blogPostsService = {
     return true;
   },
 
+  async validateUpdateBody(data) {
+    if (!validateTitle(data.title)) return false;
+    if (!validateContent(data.content)) return false;
+    return true;
+  },
+
   async validateCategoryId(idData) {
     const booleanData = await Promise.all(idData.map(async (id) => {
       const checkId = await db.Category.findOne({
@@ -75,6 +81,24 @@ const blogPostsService = {
       }],
     });
     return post;
+  },
+
+  async updatePostById(id, payload) {
+    const { title, content } = payload;
+    const [updatedPost] = await db.BlogPost.update(
+      { title, content },
+      { where: { id } },
+      { include: [{ 
+        model: db.User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      }, {
+        model: db.Category,
+        as: 'categories',
+        attributes: { exclude: ['PostCategory'] },
+      }] },
+    );
+    return updatedPost;
   },
 };
 

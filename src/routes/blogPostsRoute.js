@@ -7,6 +7,8 @@ const router = Router();
 
 router.post('/', tokenValidation, blogPostsController.createPost);
 
+router.put('/:id', tokenValidation, blogPostsController.updatePost);
+
 router.get('/', tokenValidation, blogPostsController.listPosts);
 router.get('/:id', tokenValidation, blogPostsController.getPostById);
 
