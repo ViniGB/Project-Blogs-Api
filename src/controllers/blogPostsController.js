@@ -19,6 +19,13 @@ const blogPostsController = {
     const posts = await blogPostsService.listPosts();
     res.status(200).json(posts);
   },
+
+  async getPostById(req, res) {
+    const { id } = req.params;
+    const post = await blogPostsService.getPostById(id);
+    if (!post) return res.status(404).json({ message: 'Post does not exist' });
+    res.status(200).json(post);
+  },
 };
 
 module.exports = blogPostsController;

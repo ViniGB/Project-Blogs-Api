@@ -60,6 +60,22 @@ const blogPostsService = {
     });
     return posts;
   },
+
+  async getPostById(id) {
+    const post = await db.BlogPost.findOne({
+      where: { id },
+      include: [{ 
+        model: db.User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      }, {
+        model: db.Category,
+        as: 'categories',
+        attributes: { exclude: ['PostCategory'] },
+      }],
+    });
+    return post;
+  },
 };
 
 module.exports = blogPostsService;
