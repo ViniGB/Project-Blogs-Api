@@ -42,6 +42,16 @@ const blogPostsController = {
     const newPost = await blogPostsService.getPostById(id);
     res.status(200).json(newPost);
   },
+
+  async deletePost(req, res) {
+    const { id } = req.params;
+    const post = await blogPostsService.getPostById(id);
+    if (!post) return res.status(404).json({ message: 'Post does not exist' });
+    const userId = req.user.dataValues.id;
+    if (post.userId !== userId) return res.status(401).json({ message: 'Unauthorized user' });
+    await blogPostsService.deletePostById(id);
+    res.status(204).send();
+  },
 };
 
 module.exports = blogPostsController;

@@ -88,17 +88,18 @@ const blogPostsService = {
     const [updatedPost] = await db.BlogPost.update(
       { title, content },
       { where: { id } },
-      { include: [{ 
-        model: db.User,
-        as: 'user',
-        attributes: { exclude: ['password'] },
-      }, {
-        model: db.Category,
-        as: 'categories',
-        attributes: { exclude: ['PostCategory'] },
-      }] },
     );
     return updatedPost;
+  },
+
+  async deletePostById(id) {
+    await db.PostCategory.destroy(
+      { where: { postId: id } },
+    );
+    await db.BlogPost.destroy(
+      { where: { id } },
+    );
+    return true;
   },
 };
 
