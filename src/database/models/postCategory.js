@@ -26,7 +26,8 @@ const PostCategory = (sequelize, DataTypes) => {
     db.BlogPost.belongsToMany(db.Category, {
       through: PostCategory,
       foreignKey: 'postId',
-      otherKey: 'categoryId'
+      otherKey: 'categoryId',
+      as: 'categories'
     });
     db.Category.belongsToMany(db.BlogPost, {
       through: PostCategory,

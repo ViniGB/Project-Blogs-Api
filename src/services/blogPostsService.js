@@ -45,6 +45,21 @@ const blogPostsService = {
         .map((categoryId) => db.PostCategory.create({ postId: id, categoryId })));
     return post;
   },
+
+  async listPosts() {
+    const posts = await db.BlogPost.findAll({
+      include: [{ 
+        model: db.User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      }, {
+        model: db.Category,
+        as: 'categories',
+        attributes: { exclude: ['PostCategory'] },
+      }],
+    });
+    return posts;
+  },
 };
 
 module.exports = blogPostsService;

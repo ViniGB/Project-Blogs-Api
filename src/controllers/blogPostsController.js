@@ -14,6 +14,11 @@ const blogPostsController = {
     const post = await blogPostsService.createPost(newData);
     res.status(201).json(post);
   },
+
+  async listPosts(req, res) {
+    const posts = await blogPostsService.listPosts();
+    res.status(200).json(posts);
+  },
 };
 
 module.exports = blogPostsController;

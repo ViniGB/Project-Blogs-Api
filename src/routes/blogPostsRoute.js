@@ -7,4 +7,6 @@ const router = Router();
 
 router.post('/', tokenValidation, blogPostsController.createPost);
 
+router.get('/', tokenValidation, blogPostsController.listPosts);
+
 module.exports = router;
