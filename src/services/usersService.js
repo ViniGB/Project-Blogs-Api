@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const db = require('../database/models');
+const blogPostsService = require('./blogPostsService');
 
 const usersService = {
   async validateUserBody(data) {
@@ -40,6 +41,21 @@ const usersService = {
       attributes: { exclude: ['password'] },
     });
     return user;
+  },
+
+  async deleteUser(id) {
+    const getPostsIds = await blogPostsService.findPostsByUserId(id);
+    await Promise.all(getPostsIds
+      .map((postId) => db.PostCategory.destroy({ 
+        where: { postId },
+      })));
+    await db.BlogPost.destroy(
+      { where: { userId: id } },
+    );
+    await db.User.destroy({
+      where: { id },
+    });
+    return true;
   },
 };
 

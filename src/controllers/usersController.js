@@ -28,6 +28,12 @@ const usersController = {
     if (!user) return res.status(404).json({ message: 'User does not exist' });
     res.status(200).json(user);
   },
+
+  async deleteUser(req, res) {
+    const userId = req.user.dataValues.id;
+    await usersService.deleteUser(userId);
+    res.status(204).send();
+  },
 };
 
 module.exports = usersController;

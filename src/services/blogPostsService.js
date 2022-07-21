@@ -101,6 +101,14 @@ const blogPostsService = {
     );
     return true;
   },
+
+  async findPostsByUserId(id) {
+    const posts = await db.BlogPost.findAll({
+      where: { userId: id },
+    });
+    const postsIds = posts.map((post) => post.id);
+    return postsIds;
+  },
 };
 
 module.exports = blogPostsService;
