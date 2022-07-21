@@ -11,7 +11,8 @@ router.put('/:id', tokenValidation, blogPostsController.updatePost);
 
 router.delete('/:id', tokenValidation, blogPostsController.deletePost);
 
-router.get('/', tokenValidation, blogPostsController.listPosts);
+router.get('/search', tokenValidation, blogPostsController.findPostsByQuery);
 router.get('/:id', tokenValidation, blogPostsController.getPostById);
+router.get('/', tokenValidation, blogPostsController.listPosts);
 
 module.exports = router;

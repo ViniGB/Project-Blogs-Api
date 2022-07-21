@@ -52,6 +52,13 @@ const blogPostsController = {
     await blogPostsService.deletePostById(id);
     res.status(204).send();
   },
+
+  async findPostsByQuery(req, res) {
+    const { q } = req.query;
+    const query = `%${q}%`;
+    const posts = await blogPostsService.findPostsByQuery(query);
+    res.status(200).json(posts);
+  },
 };
 
 module.exports = blogPostsController;

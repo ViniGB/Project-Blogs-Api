@@ -1,4 +1,4 @@
-// const Joi = require('joi');
+const { Op } = require('sequelize');
 const db = require('../database/models');
 
 const validateTitle = (title) => {
@@ -61,7 +61,6 @@ const blogPostsService = {
       }, {
         model: db.Category,
         as: 'categories',
-        attributes: { exclude: ['PostCategory'] },
       }],
     });
     return posts;
@@ -77,7 +76,6 @@ const blogPostsService = {
       }, {
         model: db.Category,
         as: 'categories',
-        attributes: { exclude: ['PostCategory'] },
       }],
     });
     return post;
@@ -108,6 +106,23 @@ const blogPostsService = {
     });
     const postsIds = posts.map((post) => post.id);
     return postsIds;
+  },
+
+  async findPostsByQuery(query) {
+    const posts = await db.BlogPost.findAll({
+      where: {
+        [Op.or]: [{ title: { [Op.like]: query } }, { content: { [Op.like]: query } }],
+      },
+      include: [{ 
+        model: db.User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      }, {
+        model: db.Category,
+        as: 'categories',
+      }],
+    });
+    return posts;
   },
 };
 
